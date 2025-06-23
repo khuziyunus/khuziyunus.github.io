@@ -1,13 +1,10 @@
-// Smooth scroll and greeting effect
-window.addEventListener("DOMContentLoaded", () => {
-  console.log("Welcome to Khuzaima's Portfolio!");
-
-  document.querySelectorAll("a[href^='#']").forEach(anchor => {
-    anchor.addEventListener("click", function (e) {
+document.addEventListener("DOMContentLoaded", () => {
+  const links = document.querySelectorAll("nav a");
+  links.forEach(a => {
+    a.addEventListener("click", e => {
       e.preventDefault();
-      document.querySelector(this.getAttribute("href")).scrollIntoView({
-        behavior: "smooth"
-      });
+      document.querySelector(a.getAttribute("href"))
+        .scrollIntoView({ behavior: "smooth" });
     });
   });
 });
