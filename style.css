@@ -1,60 +1,100 @@
+:root {
+  --primary: #00ffaa;
+  --bg: #111;
+  --fg: #eee;
+  --fg-alt: #ccc;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #0f0f0f;
-  color: #e0e0e0;
-  margin: 0;
-  padding: 0;
+  font-family: sans-serif;
+  background: var(--bg);
+  color: var(--fg);
   line-height: 1.6;
 }
 
-header {
-  text-align: center;
-  padding: 2rem;
-  background-color: #1f1f1f;
-  box-shadow: 0 4px 10px rgba(0, 255, 170, 0.2);
+.nav {
+  position: fixed; width:100%;
+  background: var(--bg);
+  display: flex; justify-content: center;
+  padding: 1rem 0;
 }
-
-.animate-text {
-  font-size: 2.5rem;
-  color: #00ffaa;
-  animation: glow 2s ease-in-out infinite alternate;
+.nav a {
+  color: var(--fg-alt);
+  margin: 0 1rem;
+  text-decoration: none;
+  transition: color .3s;
 }
-
-.subtitle {
-  color: #bbb;
-  font-size: 1.2rem;
-}
+.nav a:hover { color: var(--primary); }
 
 section {
-  padding: 2rem 5%;
+  padding: 100px 20px 40px;
+  max-width: 800px;
+  margin: auto;
 }
 
-h2 {
-  color: #00ffaa;
-  margin-bottom: 1rem;
+.hero {
+  text-align: center;
 }
-
-ul li {
-  margin-bottom: 10px;
+.hero img {
+  width: 120px;
+  border-radius: 50%;
+  border: 3px solid var(--primary);
 }
+.hero h1 {
+  font-size: 2.5rem;
+  color: var(--primary);
+  margin: .5rem 0;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+.hero p { color: var(--fg-alt); }
 
-a {
-  color: #00ffaa;
+.social img {
+  width: 24px; margin: 0 8px;
+  filter: invert(1);
+  transition: filter .3s;
+}
+.social img:hover { filter: invert(.6); }
+
+.projects {
+  background: #1a1a1a;
+}
+.project-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+  gap: 1.5rem;
+}
+.project-card {
+  background: #222;
+  padding: 1rem;
+  border-radius: 8px;
+}
+.project-card h3 { color: var(--primary); }
+.project-card p { color: var(--fg-alt); margin: .5rem 0; }
+.btn {
   text-decoration: none;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  padding: .4rem .8rem;
+  border-radius: 4px;
+  margin-right: .5rem;
+  transition: background-color .3s, color .3s;
+}
+.btn:hover {
+  background: var(--primary);
+  color: var(--bg);
 }
 
 footer {
   text-align: center;
   padding: 1rem;
-  background-color: #1a1a1a;
-  font-size: 0.9rem;
+  background: #111;
+  color: var(--fg-alt);
 }
 
+/* glow animation */
 @keyframes glow {
-  from {
-    text-shadow: 0 0 10px #00ffaa, 0 0 20px #00ffaa;
-  }
-  to {
-    text-shadow: 0 0 20px #00ffaa, 0 0 30px #00ffaa;
-  }
+  from { text-shadow: 0 0 10px var(--primary); }
+  to { text-shadow: 0 0 20px var(--primary); }
 }
