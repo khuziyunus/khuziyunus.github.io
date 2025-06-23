@@ -1,0 +1,60 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #0f0f0f;
+  color: #e0e0e0;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+header {
+  text-align: center;
+  padding: 2rem;
+  background-color: #1f1f1f;
+  box-shadow: 0 4px 10px rgba(0, 255, 170, 0.2);
+}
+
+.animate-text {
+  font-size: 2.5rem;
+  color: #00ffaa;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+.subtitle {
+  color: #bbb;
+  font-size: 1.2rem;
+}
+
+section {
+  padding: 2rem 5%;
+}
+
+h2 {
+  color: #00ffaa;
+  margin-bottom: 1rem;
+}
+
+ul li {
+  margin-bottom: 10px;
+}
+
+a {
+  color: #00ffaa;
+  text-decoration: none;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #1a1a1a;
+  font-size: 0.9rem;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #00ffaa, 0 0 20px #00ffaa;
+  }
+  to {
+    text-shadow: 0 0 20px #00ffaa, 0 0 30px #00ffaa;
+  }
+}
