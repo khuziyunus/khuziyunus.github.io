@@ -24,6 +24,26 @@ function addMsg(cls,content){
 document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{ text.value=c.dataset.lang; }));
 text.addEventListener('keydown',e=>{ if(e.key==='Enter'){ send.click(); } });
 closeBtn.addEventListener('click',()=>{ chat.classList.toggle('hidden'); });
+
+async function postWithFallback(payload){
+  let lastError=null;
+  const endpoints=[ENDPOINT, ENDPOINT===API_LOCAL?API_REMOTE:API_LOCAL];
+  for(const url of endpoints){
+    try{
+      const res=await fetch(url,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(payload)
+      });
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      const data=await res.json();
+      return {data,url};
+    }catch(e){
+      lastError=e;
+    }
+  }
+  throw lastError||new Error('Failed to fetch');
+}
 send.addEventListener('click',async()=>{
   const t=text.value.trim();
   if(!t){statusBox.textContent='Enter a message.';return}
@@ -36,19 +56,24 @@ send.addEventListener('click',async()=>{
     const controller=new AbortController();
     const timeout=setTimeout(()=>controller.abort(),12000);
     const payload={ message:t };
-    const res=await fetch(ENDPOINT,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(payload),
-      signal:controller.signal
-    });
-    const data=await res.json();
-    statusBox.textContent=res.ok?'Answered':'Failed: '+res.status;
-    statusBox.className=res.ok?'status ok':'status error';
+    let data;
+    let usedUrl;
+    try{
+      const result=await postWithFallback(payload);
+      data=result.data;
+      usedUrl=result.url;
+      statusBox.className='status ok';
+      statusBox.textContent='Answered';
+    }catch(err){
+      throw err;
+    }
     if(data&&data.answer){
       addMsg('bot',data.answer);
       if(data.source_language){
         statusBox.textContent+=` (language: ${data.source_language})`;
+      }
+      if(usedUrl){
+        statusBox.textContent+=` via ${usedUrl.includes('localhost')?'local API':'remote API'}`;
       }
     } else if(data&&data.error){
       statusBox.textContent='Error: '+data.error;
