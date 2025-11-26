@@ -1,4 +1,4 @@
-const API_LOCAL='http://localhost:3002/web-message';
+const API_LOCAL='https://74cf7126dd9a.ngrok-free.app/web-message';
 const API_REMOTE='https://74cf7126dd9a.ngrok-free.app/web-message';
 const ENDPOINT=(location.hostname.endsWith('github.io')||location.protocol==='https:')?API_REMOTE:API_LOCAL;
 const messages=document.getElementById('messages');
