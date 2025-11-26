@@ -38,4 +38,3 @@ send.addEventListener('click',async()=>{
   }
 });
 updatePreview();
-
