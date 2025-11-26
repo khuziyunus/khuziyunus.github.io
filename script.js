@@ -1,4 +1,4 @@
-const ENDPOINT='https://74cf7126dd9a.ngrok-free.app/whatsapp-endpoint';
+const ENDPOINT='https://74cf7126dd9a.ngrok-free.app/web-message';
 const messages=document.getElementById('messages');
 const phone=document.getElementById('phone');
 const text=document.getElementById('text');
@@ -25,14 +25,15 @@ send.addEventListener('click',async()=>{
   try{
     send.disabled=true;
     statusBox.textContent='Sending…';
-    const form=new FormData();
     const normalized=/^\+/.test(p)?p:'+'+p;
-    form.append('From','whatsapp:'+normalized);
-    form.append('Body',t);
-    const res=await fetch(ENDPOINT,{method:'POST',body:form});
-    const body=await res.text();
-    statusBox.textContent=res.ok?'Sent via WhatsApp':'Failed: '+res.status;
-    if(body) addMsg('bot',body);
+    const res=await fetch(ENDPOINT,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({to:'whatsapp:'+normalized,message:t})
+    });
+    const data=await res.json();
+    statusBox.textContent=res.ok?'Sent via API':'Failed: '+res.status;
+    if(data&&data.answer) addMsg('bot',data.answer);
   }catch(e){
     statusBox.textContent=String(e);
   }finally{
