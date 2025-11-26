@@ -3,34 +3,55 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PSER WhatsApp Bot Demo</title>
+<title>PSER Demo</title>
 <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div class="card">
-<header>PSER WhatsApp Bot Demo</header>
-<div class="content">
-<p class="muted">Enter the public base URL for your backend and send a test message to <code>/whatsapp-endpoint</code>.</p>
-<label>Backend Base URL</label>
-<input id="base" placeholder="https://xxxxx.ngrok.app">
-<div id="preview" class="preview"></div>
-<div class="row">
-<div>
-<label>From (WhatsApp)</label>
-<input id="from" placeholder="whatsapp:+1234567890">
-</div>
-<div>
-<label>Message Body</label>
-<input id="body" placeholder="Hello">
-</div>
-</div>
-<button id="send">Send</button>
-<div id="out" class="result"></div>
-</div>
-<div class="footer">
-<a class="link" href="/docs" target="_blank">Local API docs</a>
-</div>
-</div>
-<script src="script.js" defer></script>
-</body>
-</html>
+ </head>
+ <body>
+ <header class="nav">
+  <div class="brand">PSER</div>
+  <nav class="menu">
+   <a href="#">Products</a>
+   <a href="#">About Us</a>
+   <a href="#">News & Media</a>
+   <a href="#">Become Partner</a>
+   <a href="#">Careers</a>
+   <a href="#">Contact Us</a>
+  </nav>
+ </header>
+
+ <main class="hero">
+  <div class="hero-text">
+   <h1>First brand to introduce CPVC in India</h1>
+   <p class="muted">Experience a green, modern demo with a WhatsApp-style assistant.</p>
+  </div>
+  <div class="hero-art"></div>
+ </main>
+
+ <div class="chat">
+  <div class="chat-head">
+   <div class="chat-title">Astral Pipes</div>
+   <button class="chat-close" aria-label="Close">×</button>
+  </div>
+  <div id="messages" class="chat-body">
+   <div class="msg bot">
+    <div class="bubble">Hi, Welcome to Astral Pipes Official Account.<br><br>I'm Astral Pipe's Virtual Assistant. Please select your preferred language:</div>
+    <div class="chips">
+     <button class="chip" data-lang="English">English (English)</button>
+     <button class="chip" data-lang="Hindi">Hindi (हिंदी)</button>
+    </div>
+   </div>
+  </div>
+  <div class="chat-actions">
+   <input id="phone" class="chat-input" placeholder="Your WhatsApp number e.g. +1234567890">
+   <input id="text" class="chat-input" placeholder="Type your message">
+   <button id="send" class="chat-send">Send</button>
+  </div>
+  <div id="status" class="status"></div>
+ </div>
+
+ <footer class="footer">
+  <a class="link" href="/docs" target="_blank">Local API docs</a>
+ </footer>
+ <script src="script.js" defer></script>
+ </body>
+ </html>
