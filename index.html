@@ -4,29 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PSER WhatsApp Bot Demo</title>
-<style>
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;margin:0;padding:24px;background:#f7f7f8;color:#0f172a}
-.card{max-width:720px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
-.card header{padding:20px 24px;border-bottom:1px solid #e5e7eb;font-weight:600}
-.card .content{padding:20px 24px}
-label{display:block;margin:10px 0 6px}
-input,textarea{width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px}
-textarea{min-height:96px}
-button{margin-top:14px;padding:10px 14px;border:0;border-radius:8px;background:#2563eb;color:#fff;font-weight:600;cursor:pointer}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.muted{color:#475569;font-size:14px;margin-top:10px}
-.result{margin-top:14px;padding:12px;border:1px solid #e5e7eb;border-radius:8px;background:#f9fafb;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:13px;white-space:pre-wrap}
-.footer{padding:16px 24px;border-top:1px solid #e5e7eb;background:#fafafa;color:#475569;font-size:13px}
-.link{color:#2563eb;text-decoration:none}
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div class="card">
 <header>PSER WhatsApp Bot Demo</header>
 <div class="content">
-<p class="muted">Enter the public base URL for your backend (ngrok). Use the form to post to <code>/whatsapp-endpoint</code>.</p>
+<p class="muted">Enter the public base URL for your backend and send a test message to <code>/whatsapp-endpoint</code>.</p>
 <label>Backend Base URL</label>
 <input id="base" placeholder="https://xxxxx.ngrok.app">
+<div id="preview" class="preview"></div>
 <div class="row">
 <div>
 <label>From (WhatsApp)</label>
@@ -44,27 +31,6 @@ button{margin-top:14px;padding:10px 14px;border:0;border-radius:8px;background:#
 <a class="link" href="/docs" target="_blank">Local API docs</a>
 </div>
 </div>
-<script>
-const baseInput=document.getElementById('base');
-const fromInput=document.getElementById('from');
-const bodyInput=document.getElementById('body');
-const out=document.getElementById('out');
-document.getElementById('send').addEventListener('click',async()=>{
-  const base=baseInput.value.trim();
-  const from=fromInput.value.trim();
-  const body=bodyInput.value.trim();
-  if(!base){out.textContent='Set backend base URL.';return}
-  try{
-    const form=new FormData();
-    form.append('From',from);
-    form.append('Body',body);
-    const res=await fetch(base.replace(/\/$/,'')+'/whatsapp-endpoint',{method:'POST',body:form});
-    const text=await res.text();
-    out.textContent='Status '+res.status+'\n'+text;
-  }catch(e){
-    out.textContent=String(e);
-  }
-});
-</script>
+<script src="app.js" defer></script>
 </body>
 </html>
