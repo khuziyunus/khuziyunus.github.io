@@ -1,40 +1,42 @@
-const baseInput=document.getElementById('base');
-const fromInput=document.getElementById('from');
-const bodyInput=document.getElementById('body');
-const out=document.getElementById('out');
+const ENDPOINT='https://74cf7126dd9a.ngrok-free.app/whatsapp-endpoint';
+const messages=document.getElementById('messages');
+const phone=document.getElementById('phone');
+const text=document.getElementById('text');
 const send=document.getElementById('send');
-const pv=document.getElementById('preview');
-function updatePreview(){
-  const base=baseInput.value.trim().replace(/\/$/,'');
-  pv.textContent=base?base+'/whatsapp-endpoint':'';
+const statusBox=document.getElementById('status');
+function addMsg(cls,content){
+  const wrap=document.createElement('div');
+  wrap.className='msg '+cls;
+  const b=document.createElement('div');
+  b.className='bubble';
+  b.textContent=content;
+  wrap.appendChild(b);
+  messages.appendChild(wrap);
+  messages.scrollTop=messages.scrollHeight;
 }
-function setFilled(el){
-  if(el.value.trim()) el.classList.add('filled'); else el.classList.remove('filled');
-}
-baseInput.addEventListener('input',()=>{updatePreview();setFilled(baseInput)});
-fromInput.addEventListener('input',()=>setFilled(fromInput));
-bodyInput.addEventListener('input',()=>setFilled(bodyInput));
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
+  text.value=c.dataset.lang;
+}));
 send.addEventListener('click',async()=>{
-  const base=baseInput.value.trim();
-  const from=fromInput.value.trim();
-  const body=bodyInput.value.trim();
-  if(!base){out.className='result';out.textContent='Set backend base URL.';return}
-  if(!from||!body){out.className='result';out.textContent='Enter From and Body.';return}
+  const p=phone.value.trim();
+  const t=text.value.trim();
+  if(!p||!t){statusBox.textContent='Enter your WhatsApp number and a message.';return}
+  addMsg('user',t);
   try{
-    send.disabled=true;send.textContent='Sending…';
+    send.disabled=true;
+    statusBox.textContent='Sending…';
     const form=new FormData();
-    const normalizedFrom=/^whatsapp:/.test(from)?from:'whatsapp:'+from.replace(/^\+?/,'+');
-    form.append('From',normalizedFrom);
-    form.append('Body',body);
-    const res=await fetch(base.replace(/\/$/,'')+'/whatsapp-endpoint',{method:'POST',body:form});
-    const text=await res.text();
-    out.className=res.ok?'result success':'result';
-    out.textContent='Status '+res.status+'\n'+text;
+    const normalized=/^\+/.test(p)?p:'+'+p;
+    form.append('From','whatsapp:'+normalized);
+    form.append('Body',t);
+    const res=await fetch(ENDPOINT,{method:'POST',body:form});
+    const body=await res.text();
+    statusBox.textContent=res.ok?'Sent via WhatsApp':'Failed: '+res.status;
+    if(body) addMsg('bot',body);
   }catch(e){
-    out.className='result';
-    out.textContent=String(e);
+    statusBox.textContent=String(e);
   }finally{
-    send.disabled=false;send.textContent='Send';
+    send.disabled=false;
+    text.value='';
   }
 });
-updatePreview();
